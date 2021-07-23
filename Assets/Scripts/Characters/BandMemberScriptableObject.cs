@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BandMemberScriptableObject : MonoBehaviour
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/BandMemberScriptableObject", order = 1)]
+public class BandMemberScriptableObject : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
+     public enum memberType {Vocalist, Guitarist, Bassist, Drummer};
+
+    public struct StatBoosts
     {
-        
+        public bool talent;
+        public bool technical;
+        public bool finesse;
+        public bool hardiness;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
