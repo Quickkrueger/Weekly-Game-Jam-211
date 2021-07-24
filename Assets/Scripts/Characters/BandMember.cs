@@ -7,6 +7,7 @@ public class BandMember : MonoBehaviour
     Texture icon;
     public int maxHealth;
     int currentHealth;
+    int speed = 5;
     Stats stats;
     BandMemberScriptableObject memberData;
     MemberType type;
@@ -39,6 +40,21 @@ public class BandMember : MonoBehaviour
         if (memberData.statBoosts.hardiness)
         {
             stats.hardiness++;
+        }
+    }
+
+    public float GetSpeed()
+    {
+        return speed;
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Room")
+        {
+            LevelController._instance.ChangeToRoom(collision.gameObject);
+            Debug.Log("Hello");
         }
     }
 
