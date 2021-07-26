@@ -6,26 +6,44 @@ using UnityEngine.UI;
 public class BandMember : MonoBehaviour
 {
     Texture icon;
-    public int maxHealth;
-    int currentHealth;
+
+    public int maxHits;//crew member moral
+    int currentHits;
     int speed = 5;
     Stats stats;
+
     public BandMemberScriptableObject memberData;
+
     MemberType type;
+
     BaseTask currentTask;
     GameObject currentRoom;
+
+    Rigidbody2D memberRigidbody2D;
+    Animator memberAnimator;
+    SpriteRenderer memberRenderer;
+
 
     public Image progressBar;
     bool useProgress = false;
     bool selected = false;
+    private bool horizontal = false;
+    private bool moving = false;
 
     private bool interacting = false;
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        currentHits = maxHits;
 
         stats = new Stats(0, 0, 0, 0);
+
+        AddBonuses();
+
+        memberAnimator = GetComponent<Animator>();
+        memberRigidbody2D = GetComponent<Rigidbody2D>();
+        memberRenderer = GetComponent<SpriteRenderer>();
+
     }
 
     private void Update()
@@ -33,17 +51,37 @@ public class BandMember : MonoBehaviour
         if(interacting && useProgress && !currentTask.IsCompleted())
         {
             progressBar.fillAmount = currentTask.TaskProgress(Time.deltaTime);
+            if (TestForFailure())
+            {
+                currentHits -= 1;
+                progressBar.fillAmount = 0;
+                Debug.Log("Failed Task");
+                EndInteraction();
+            }
         }
-        else if (interacting && useProgress && !currentTask.IsCompleted())
+        else if (interacting && useProgress && currentTask.IsCompleted())
         {
             progressBar.fillAmount = 0;
             EndInteraction();
         }
     }
 
+    private bool TestForFailure()
+    {
+        int rand = Random.Range(1, Constants.failureChance);
+
+        if(rand > Constants.baseSuccess + stats.GetStatFromIndex((int)currentTask.type)){
+            return true;
+        }
+        return false;
+        
+    }
+
+
     public void SelectMember()
     {
         selected = true;
+        memberRigidbody2D.isKinematic = false;
         LevelController._instance.ChangeToRoom(currentRoom);
 
     }
@@ -51,7 +89,7 @@ public class BandMember : MonoBehaviour
     public void DeselectMember()
     {
         selected = false;
-
+        memberRigidbody2D.isKinematic = true;
     }
 
     public void BeginInteraction(bool assigned = false)
@@ -74,6 +112,46 @@ public class BandMember : MonoBehaviour
             progressBar.fillAmount = 0;
             currentTask.ResetTask();
         }
+    }
+
+    public void UpdateMovement(float forwardBack, float leftRight)
+    {
+        //TODO: Move currentAnimator, currentCollider and currentRigidbody2D functionality to the BandMember class
+
+        memberRigidbody2D.velocity = new Vector2(leftRight, forwardBack).normalized * speed;
+
+        if ((Mathf.Abs(forwardBack) > 0) || (Mathf.Abs(leftRight) > 0))
+        {
+            moving = true;
+
+            if (IsInteracting())
+            {
+                EndInteraction();
+            }
+        }
+        else
+        {
+            moving = false;
+        }
+
+        if (leftRight < 0)
+        {
+            memberRenderer.flipX = true;
+            horizontal = true;
+        }
+        else if (leftRight > 0)
+        {
+            memberRenderer.flipX = false;
+            horizontal = true;
+        }
+        else if (moving)
+        {
+            horizontal = false;
+        }
+
+        memberAnimator.SetBool("moving", moving);
+
+        memberAnimator.SetBool("horizontal", horizontal);
     }
 
     public bool IsInteracting()

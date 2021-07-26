@@ -51,4 +51,4 @@ public class BaseTask : MonoBehaviour
 
 }
 
-public enum TaskType { Technical, Finesse, Hardiness };
+public enum TaskType { Talent, Technical, Finesse, Hardiness };
