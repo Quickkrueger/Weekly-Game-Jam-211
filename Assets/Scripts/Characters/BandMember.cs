@@ -31,6 +31,7 @@ public class BandMember : MonoBehaviour
     bool selected = false;
     private bool horizontal = false;
     private bool moving = false;
+    private bool demoralized = false;
 
     private bool interacting = false;
 
@@ -57,7 +58,7 @@ public class BandMember : MonoBehaviour
             if ( secondsPassed >= 1 && TestForFailure())
             {
                 
-                currentHits -= 1;
+                currentHits--;
                 progressBar.fillAmount = 0;
                 Debug.Log("Failed Task");
                 EndInteraction();
@@ -66,6 +67,10 @@ public class BandMember : MonoBehaviour
             else if(secondsPassed >= 1)
             {
                 secondsPassed = 0;
+            }
+            if(currentHits == 0 && !demoralized)
+            {
+                demoralized = true;
             }
         }
         else if (interacting && useProgress && currentTask.IsCompleted())
