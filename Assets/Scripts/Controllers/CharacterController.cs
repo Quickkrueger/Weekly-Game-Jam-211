@@ -13,19 +13,21 @@ public class CharacterController : MonoBehaviour
     private BandMember currentMember;
     private Collider2D currentCollider;
     private SpriteRenderer currentRenderer;
-
-    private bool interacting = false;
     private bool horizontal = false;
     private bool moving = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        //TODO: Move currentAnimator, currentCollider and currentRigidbody2D functionality to the BandMember class
         currentRigidbody2D = currentCharacter.GetComponent<Rigidbody2D>();
         currentAnimator = currentCharacter.GetComponent<Animator>();
         currentMember = currentCharacter.GetComponent<BandMember>();
         currentCollider = currentCharacter.GetComponent<Collider2D>();
         currentRenderer = currentCharacter.GetComponent<SpriteRenderer>();
+
+        currentRigidbody2D.isKinematic = false;
+        currentMember.SelectMember();
 
     }
 
@@ -38,7 +40,9 @@ public class CharacterController : MonoBehaviour
 
     public void SwapCharacter(GameObject character)
     {
-        currentCollider.enabled = false;
+        //TODO: Move currentAnimator, currentCollider and currentRigidbody2D functionality to the BandMember class
+        currentMember.DeselectMember();
+        currentRigidbody2D.isKinematic = true;
 
         currentCharacter = character;
         currentRigidbody2D = currentCharacter.GetComponent<Rigidbody2D>();
@@ -46,7 +50,8 @@ public class CharacterController : MonoBehaviour
         currentMember = currentCharacter.GetComponent<BandMember>();
         currentCollider = currentCharacter.GetComponent<Collider2D>();
 
-        currentCollider.enabled = true;
+        currentRigidbody2D.isKinematic = false;
+        currentMember.SelectMember();
     }
 
     private void FixedUpdate()
@@ -57,10 +62,15 @@ public class CharacterController : MonoBehaviour
 
     private void UpdateAnimation(float forwardBack, float leftRight)
     {
-        
+        //TODO: Move currentAnimator, currentCollider and currentRigidbody2D functionality to the BandMember class
 
-        if((Mathf.Abs(forwardBack) > 0) || (Mathf.Abs(leftRight) > 0)){
+        if ((Mathf.Abs(forwardBack) > 0) || (Mathf.Abs(leftRight) > 0)){
             moving = true;
+
+            if (currentMember.IsInteracting())
+            {
+                currentMember.EndInteraction();
+            }
         }
         else
         {
@@ -96,14 +106,16 @@ public class CharacterController : MonoBehaviour
     {
         Mouse mouse = Mouse.current;
 
-        if (mouse.rightButton.isPressed && ! interacting)
+        if (mouse.rightButton.isPressed && ! currentMember.IsInteracting())
         {
-            interacting = true;
+            Debug.Log("StartingInteraction");
+            currentMember.BeginInteraction(true);
         }
     }
 
     private void Movement()
     {
+        //TODO: Move currentAnimator, currentCollider and currentRigidbody2D functionality to the BandMember class
         Keyboard keyboard = Keyboard.current;
         bool wInput = keyboard.wKey.IsPressed();
         bool sInput = keyboard.sKey.IsPressed();

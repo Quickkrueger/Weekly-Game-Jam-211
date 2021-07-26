@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BandMate
   - Room
+  - Task
   layers:
   - Default
   - TransparentFX
