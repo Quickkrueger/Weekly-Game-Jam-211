@@ -23,6 +23,8 @@ public class BandMember : MonoBehaviour
     Animator memberAnimator;
     SpriteRenderer memberRenderer;
 
+    float secondsPassed = 0;
+
 
     public Image progressBar;
     bool useProgress = false;
@@ -51,12 +53,19 @@ public class BandMember : MonoBehaviour
         if(interacting && useProgress && !currentTask.IsCompleted())
         {
             progressBar.fillAmount = currentTask.TaskProgress(Time.deltaTime);
-            if (TestForFailure())
+            secondsPassed += Time.deltaTime;
+            if ( secondsPassed >= 1 && TestForFailure())
             {
+                
                 currentHits -= 1;
                 progressBar.fillAmount = 0;
                 Debug.Log("Failed Task");
                 EndInteraction();
+                secondsPassed = 0;
+            }
+            else if(secondsPassed >= 1)
+            {
+                secondsPassed = 0;
             }
         }
         else if (interacting && useProgress && currentTask.IsCompleted())
@@ -82,6 +91,7 @@ public class BandMember : MonoBehaviour
     {
         selected = true;
         memberRigidbody2D.isKinematic = false;
+        if(currentRoom != null)
         LevelController._instance.ChangeToRoom(currentRoom);
 
     }
@@ -195,7 +205,6 @@ public class BandMember : MonoBehaviour
             {
                 LevelController._instance.ChangeToRoom(currentRoom);
             }
-            Debug.Log("Hello");
         }
 
         if (collision.tag == "Task")

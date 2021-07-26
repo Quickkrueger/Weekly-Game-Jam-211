@@ -11,9 +11,10 @@ public class LevelGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentRooms = new List<GameObject>();
         for (int i = 0; i < 7; i++) {
             currentRooms.Add(null);
-                }
+            }
     }
 
     // Update is called once per frame

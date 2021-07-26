@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseTime: 10
-  type: 0
+  type: 1
 --- !u!1 &186579515
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseTime: 10
-  type: 0
+  type: 2
 --- !u!4 &329181839
 Transform:
   m_ObjectHideFlags: 0
@@ -1649,6 +1649,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3721368303693185891, guid: 66b4b54e262671940b1f6085c4c63cd1,
+        type: 3}
+      propertyPath: memberData
+      value: 
+      objectReference: {fileID: 11400000, guid: deb8b63b4947887458f785176611fb9f,
+        type: 2}
     - target: {fileID: 3721368303693185894, guid: 66b4b54e262671940b1f6085c4c63cd1,
         type: 3}
       propertyPath: m_Name

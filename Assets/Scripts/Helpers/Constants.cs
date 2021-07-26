@@ -5,7 +5,7 @@ using UnityEngine;
 public class Constants
 {
 
-    public const int failureChance = 5;
-    public const int baseSuccess = 2;
+    public const int failureChance = 20;
+    public const int baseSuccess = 18;
     
 }
