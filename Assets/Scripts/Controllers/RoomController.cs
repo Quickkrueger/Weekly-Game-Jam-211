@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RoomController : MonoBehaviour
 {
-    public AvailablePaths availablePaths;
+    public AvailablePath[] availablePaths;
 
     public CinemachineVirtualCamera roomCamera;
     public BaseTask[] tasks;
@@ -23,10 +23,10 @@ public class RoomController : MonoBehaviour
 }
 
 [System.Serializable]
-public struct AvailablePaths
+public struct AvailablePath
 {
-    public bool north;
-    public bool south;
-    public bool east;
-    public bool west;
+    public Direction direction;
+    public GameObject portal;
 }
+
+public enum Direction {North, South, East, West};

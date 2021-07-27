@@ -169,6 +169,11 @@ public class BandMember : MonoBehaviour
         memberAnimator.SetBool("horizontal", horizontal);
     }
 
+    public void UpdateSprite(int animationIndex, int frameIndex)
+    {
+        memberData.frames.GetFramesFromIndex(animationIndex);
+    }
+
     public bool IsInteracting()
     {
         return interacting;
