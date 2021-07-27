@@ -169,9 +169,11 @@ public class BandMember : MonoBehaviour
         memberAnimator.SetBool("horizontal", horizontal);
     }
 
-    public void UpdateSprite(int animationIndex, int frameIndex)
+    public void UpdateSprite(string momentString)
     {
-        memberData.frames.GetFramesFromIndex(animationIndex);
+        AnimationMoment moment = new AnimationMoment(momentString);
+        Sprite[] frames = memberData.frames.GetFramesFromIndex(moment.animationIndex);
+        memberRenderer.sprite = frames[moment.frameIndex];
     }
 
     public bool IsInteracting()
@@ -235,6 +237,7 @@ public class BandMember : MonoBehaviour
 
 }
 
+[System.Serializable]
 public struct Stats
 {
     public Stats(int tal, int tech, int fin, int hard)
@@ -266,4 +269,18 @@ public struct Stats
     public int technical;
     public int finesse;
     public int hardiness;
+}
+
+[System.Serializable]
+public struct AnimationMoment
+{
+    public int animationIndex;
+    public int frameIndex;
+
+    public AnimationMoment(string stringMoment)
+    {
+        string[] parsed = stringMoment.Split(' ');
+        animationIndex =int.Parse(parsed[0]);
+        frameIndex = int.Parse(parsed[1]);
+    }
 }
