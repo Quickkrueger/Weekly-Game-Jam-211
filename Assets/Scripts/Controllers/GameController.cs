@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
 
+    public static GameController _instance;
+
     public Text timeText;
     public float maxTime;
     public GameObject tablet;
@@ -25,6 +27,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _instance = this;
         timeRemaining = maxTime;
         initialPosition = tablet.transform.position.y;
     }
@@ -38,6 +41,7 @@ public class GameController : MonoBehaviour
         {
             MoveTablet();
         }
+        UpdateTasks();
     }
 
     void UpdateTasks()
@@ -80,6 +84,14 @@ public class GameController : MonoBehaviour
                 tablet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0f);
                 tabletMoving = false;
             }
+        }
+    }
+
+    public void CompleteDoors()
+    {
+        for(int i = 0; i < doorTasks.Length; i++)
+        {
+            doorTasks[i].CompleteTask();
         }
     }
 
