@@ -27,10 +27,13 @@ public class BandMember : MonoBehaviour
 
 
     public Image progressBar;
+    public Image progressTimer;
+
     bool useProgress = false;
     bool selected = false;
     private bool horizontal = false;
     private bool moving = false;
+    private bool up = false;
     private bool demoralized = false;
 
     private bool interacting = false;
@@ -113,7 +116,7 @@ public class BandMember : MonoBehaviour
         {
             Debug.Log("StartingTask");
             interacting = true;
-
+            progressTimer.enabled = true;
             useProgress = assigned;
         }
     }
@@ -124,6 +127,7 @@ public class BandMember : MonoBehaviour
         {
             interacting = false;
             useProgress = false;
+            progressTimer.enabled = false;
             progressBar.fillAmount = 0;
             currentTask.ResetTask();
         }
@@ -131,7 +135,6 @@ public class BandMember : MonoBehaviour
 
     public void UpdateMovement(float forwardBack, float leftRight)
     {
-        //TODO: Move currentAnimator, currentCollider and currentRigidbody2D functionality to the BandMember class
 
         memberRigidbody2D.velocity = new Vector2(leftRight, forwardBack).normalized * speed;
 
@@ -147,6 +150,15 @@ public class BandMember : MonoBehaviour
         else
         {
             moving = false;
+        }
+
+        if(forwardBack > 0)
+        {
+            up = true;
+        }
+        else if(forwardBack < 0)
+        {
+            up = false;
         }
 
         if (leftRight < 0)
@@ -165,6 +177,8 @@ public class BandMember : MonoBehaviour
         }
 
         memberAnimator.SetBool("moving", moving);
+
+        memberAnimator.SetBool("up", up);
 
         memberAnimator.SetBool("horizontal", horizontal);
     }

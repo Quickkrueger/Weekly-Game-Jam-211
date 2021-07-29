@@ -8,14 +8,14 @@ public class BaseTask : MonoBehaviour
     public TaskType type;
     float progressedTime = 0;
     bool completed = false;
-
-    SpriteRenderer sprite;
+    public string taskDescription;
 
     GameObject minigame;
+    public GameObject sparks;
+    public GameObject door;
 
     private void Start()
     {
-        sprite = GetComponent<SpriteRenderer>();
     }
 
     public float TaskProgress(float deltaTime)
@@ -29,7 +29,12 @@ public class BaseTask : MonoBehaviour
             {
                 progress = 1;
                 completed = true;
-                sprite.color = Color.green;
+            sparks.SetActive(false);
+            if(door != null)
+            {
+                door.GetComponent<Collider2D>().enabled = false;
+                door.GetComponent<SpriteRenderer>().color = Color.white;
+            }
 
             }
 
