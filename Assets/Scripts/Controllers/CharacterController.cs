@@ -38,8 +38,11 @@ public class CharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Movement();
-        Assign();
+        if (GameController._instance.IsStarted())
+        {
+            Movement();
+            Assign();
+        }
     }
 
    
