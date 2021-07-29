@@ -18,3 +18,23 @@ MonoBehaviour:
     technical: 0
     finesse: 1
     hardiness: 1
+  frames:
+    idle:
+    - {fileID: 21300000, guid: aed19fdf00ac63047a4112996766e292, type: 3}
+    - {fileID: 21300000, guid: ff8e27b4b19bf414f95dd7503e5da576, type: 3}
+    - {fileID: 21300000, guid: 1920768c4aa9be244ad3c7992e0eb3b0, type: 3}
+    walkUp:
+    - {fileID: 21300000, guid: 1920768c4aa9be244ad3c7992e0eb3b0, type: 3}
+    - {fileID: 21300000, guid: f0204d9fdab90614cb1dfcb85b91de5b, type: 3}
+    - {fileID: 21300000, guid: 4220f3b2ffa62a0419409b9e8dbfb45f, type: 3}
+    - {fileID: 21300000, guid: e3fc4a147fd70e24a9fdcc6bc23edfc8, type: 3}
+    walkHorizontal:
+    - {fileID: 21300000, guid: ff8e27b4b19bf414f95dd7503e5da576, type: 3}
+    - {fileID: 21300000, guid: 4ece692d0df971f4d9c19e400ef36515, type: 3}
+    - {fileID: 21300000, guid: dc89f8cf7e942c248b4639e9995c80de, type: 3}
+    - {fileID: 21300000, guid: 1af0c73ad41e8c749818bfee3c16133a, type: 3}
+    walkDown:
+    - {fileID: 21300000, guid: aed19fdf00ac63047a4112996766e292, type: 3}
+    - {fileID: 21300000, guid: c7fa7f520c31c644aacdc3a27632cadf, type: 3}
+    - {fileID: 21300000, guid: 01d233c99f9d01e4dba580aec20588e2, type: 3}
+    - {fileID: 21300000, guid: 82d3eecdad7dded44a5286bbb6ea2b41, type: 3}

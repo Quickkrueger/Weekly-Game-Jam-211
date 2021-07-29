@@ -6,6 +6,6 @@ public class Constants
 {
 
     public const int failureChance = 20;
-    public const int baseSuccess = 18;
+    public const int baseSuccess = 20;
     
 }
