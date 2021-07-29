@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
@@ -19,9 +20,15 @@ public class GameController : MonoBehaviour
     public BaseTask[] tasks;
     public Text[] taskText;
     public BaseTask[] doorTasks;
+    public GameObject victoryScreen;
+    public GameObject failureScreen;
+    public GameObject menu;
 
+    bool started = false;
     bool tabletMoving = false;
     bool tabletOut = false;
+    bool victory = false;
+    bool failure = false;
 
 
     // Start is called before the first frame update
@@ -35,24 +42,65 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TickDown();
-        CheckForInput();
-        if (tabletMoving)
+        if (started && !victory && !failure)
         {
-            MoveTablet();
+            TickDown();
+            CheckForInput();
+            if (tabletMoving)
+            {
+                MoveTablet();
+            }
+                UpdateTasks();
         }
-        UpdateTasks();
+        if(victory || failure)
+        {
+            CheckForRestart();
+        }
+    }
+
+    public bool IsStarted()
+    {
+        return started;
+    }
+
+    public void StartGame()
+    {
+        started = true;
+        menu.SetActive(false);
+    }
+
+    void SetEndscreen()
+    {
+        if (victory)
+        {
+            victoryScreen.SetActive(true);
+        }
+        else if (failure)
+        {
+            failureScreen.SetActive(true);
+        }
     }
 
     void UpdateTasks()
     {
+        bool allComplete = true;
         for(int i = 0; i < tasks.Length; i++)
         {
             if (tasks[i].IsCompleted())
             {
                 taskText[i].color = Color.green;
             }
+            if (!tasks[i].IsCompleted())
+            {
+                allComplete = false;
+            }
         }
+        victory = allComplete;
+        if (victory)
+        {
+            SetEndscreen();
+        }
+
     }
 
     void MoveTablet()
@@ -111,6 +159,15 @@ public class GameController : MonoBehaviour
         }
     }
 
+    void CheckForRestart()
+    {
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard.escapeKey.isPressed)
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
     void UpdateClock()
     {
         int mins = (int)timeRemaining / 60;
@@ -130,8 +187,16 @@ public class GameController : MonoBehaviour
 
     void TickDown()
     {
-        timeRemaining -= Time.deltaTime;
-        UpdateClock();
+        if (timeRemaining > 0)
+        {
+            timeRemaining -= Time.deltaTime;
+            UpdateClock();
+        }
+        else
+        {
+            failure = true;
+            SetEndscreen();
+        }
     }
 }
 
