@@ -42,17 +42,26 @@ public class GameController : MonoBehaviour
 
     void UpdateTasks()
     {
-
+        for(int i = 0; i < tasks.Length; i++)
+        {
+            if (tasks[i].IsCompleted())
+            {
+                taskText[i].color = Color.green;
+            }
+        }
     }
 
     void MoveTablet()
     {
+        float speed = tabletSpeed * Screen.height * tabletOffset;
+
         if (tabletOut)
         {
-            if(tablet.transform.position.y > initialPosition - tabletOffset)
+            if(tablet.transform.position.y > initialPosition - (Screen.height * tabletOffset))
             {
+                
 
-                tablet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, tabletSpeed * -1f);
+                tablet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, speed * -1f);
             }
             else
             {
@@ -64,7 +73,7 @@ public class GameController : MonoBehaviour
         {
             if (tablet.transform.position.y < initialPosition)
             {
-                tablet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, tabletSpeed);
+                tablet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, speed);
             }
             else
             {

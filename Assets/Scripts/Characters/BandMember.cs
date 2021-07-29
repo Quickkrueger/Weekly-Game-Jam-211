@@ -27,6 +27,8 @@ public class BandMember : MonoBehaviour
 
 
     public Image progressBar;
+    public Image progressTimer;
+
     bool useProgress = false;
     bool selected = false;
     private bool horizontal = false;
@@ -114,7 +116,7 @@ public class BandMember : MonoBehaviour
         {
             Debug.Log("StartingTask");
             interacting = true;
-
+            progressTimer.enabled = true;
             useProgress = assigned;
         }
     }
@@ -125,6 +127,7 @@ public class BandMember : MonoBehaviour
         {
             interacting = false;
             useProgress = false;
+            progressTimer.enabled = false;
             progressBar.fillAmount = 0;
             currentTask.ResetTask();
         }

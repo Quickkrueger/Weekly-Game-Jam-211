@@ -32,7 +32,8 @@ public class BaseTask : MonoBehaviour
             sparks.SetActive(false);
             if(door != null)
             {
-                door.GetComponent<Collider>().enabled = false;
+                door.GetComponent<Collider2D>().enabled = false;
+                door.GetComponent<SpriteRenderer>().color = Color.white;
             }
 
             }
